@@ -1,4 +1,4 @@
-import { Utilis } from "../constants/utils.js";
+import { Constants } from "../constants/constants.js";
 
 const resetButton = document.querySelector("#clear-local-data");
 const profileImg = document.querySelector('#profile-image');
@@ -13,8 +13,8 @@ resetButton.addEventListener("click", () => {
 });
 
 const fetchImagesFromAPI = async () => {
-  const BASE_URL = Utilis.BASE_URL;
-  const API_KEY = Utilis.API_KEY;
+  const BASE_URL = Constants.BASE_URL;
+  const API_KEY = Constants.API_KEY;
 
   try {
     const response = await fetch(BASE_URL, {
