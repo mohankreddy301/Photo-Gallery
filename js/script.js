@@ -52,6 +52,36 @@ const displayImages = (photos) => {
   }
 };
 
+
+
+const displayCarousel = (photos, scrollInterval = 3000, scrollAmount = 1) => {
+  const gallery = document.querySelector(".gallery");
+  gallery.innerHTML = ""; // Clear existing content
+
+  // Create image elements and append
+  displayImages(photos);
+
+  let scrollPosition = 0;
+
+  // Scroll function for infinite loop
+  function autoScroll() {
+    const maxScroll = gallery.scrollWidth - gallery.clientWidth;
+
+    // Scroll by fixed amount (width of one image + margin)
+    const scrollStep = 160 * scrollAmount;
+
+    if (scrollPosition + scrollStep >= maxScroll) {
+      // Reset scroll position to start for infinite effect
+      scrollPosition = 0;
+      gallery.scrollTo({ left: scrollPosition, behavior: "smooth" });
+    } else {
+      scrollPosition += scrollStep;
+      gallery.scrollTo({ left: scrollPosition, behavior: "smooth" });
+    }
+  }
+  setInterval(autoScroll, scrollInterval);
+};
+
 const fetchImagesFromLocalStorage = () => {
   const storedData = localStorage.getItem("pexels_photo_data");
   localStorage.setItem("copy_pexels_photo_data", storedData);
@@ -59,8 +89,8 @@ const fetchImagesFromLocalStorage = () => {
   if (storedData) {
     dataObject = JSON.parse(storedData);
     const { prev_page, photos, next_page, per_page, page } = dataObject;
-    displayImages(photos);
+
+    displayCarousel(photos, 3000,3); // Scrolls every 3 seconds by 1 image
   }
 };
-
 fetchImagesFromLocalStorage();
