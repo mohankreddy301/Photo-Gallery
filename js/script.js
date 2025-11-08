@@ -1,7 +1,7 @@
 import { Constants } from "../constants/constants.js";
 
+/*
 const resetButton = document.querySelector("#clear-local-data");
-const profileImg = document.querySelector('#profile-image');
 
 resetButton.addEventListener("click", () => {
   const storedData = localStorage.getItem("pexels_photo_data");
@@ -11,6 +11,8 @@ resetButton.addEventListener("click", () => {
     alert("Local copy is not available");
   }
 });
+
+*/
 
 const fetchImagesFromAPI = async () => {
   const BASE_URL = Constants.BASE_URL;
@@ -31,13 +33,22 @@ const fetchImagesFromAPI = async () => {
 };
 
 const displayImages = (photos) => {
+  const gallery = document.querySelector(".gallery");
   if (photos.length > 0) {
-    const src = photos[0].src;
-    const url = src.original;
-    if (url) {
-      console.log(url);
-      profileImg.src = url; 
-    }
+    photos.forEach((element) => {
+      const src = element.src;
+      const url = src.original;
+      if (url) {
+        const profileImg = document.createElement("img");
+        profileImg.src = url;
+        profileImg.addEventListener("click", () => {
+          localStorage.removeItem("selected-image-data");
+          localStorage.setItem("selected-image-data", JSON.stringify(element));
+          window.location.href = "details.html";
+        });
+        gallery.appendChild(profileImg);
+      }
+    });
   }
 };
 
